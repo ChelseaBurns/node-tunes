@@ -1,0 +1,24 @@
+{
+  "name": "node-tunes",
+  "version": "1.0.0",
+  "description": "CRUD music app built with EJS for templating, ExpressJS for routing, Mongo for storage (in conjunction with MongoLab), and Heroku for deployment. ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChelseaBurns/node-tunes.git"
+  },
+  "author": "Chelsea Burns <co.designux@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ChelseaBurns/node-tunes/issues"
+  },
+  "homepage": "https://github.com/ChelseaBurns/node-tunes#readme",
+  "dependencies": {
+    "ejs": "^2.3.3",
+    "express": "^4.13.3",
+    "mongodb": "^2.0.40"
+  }
+}

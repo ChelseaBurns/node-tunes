@@ -14,6 +14,12 @@ var artists = require('./routes/artists');
 
 var app = express();
 
+//detects the environment and configures the app accordingly
+if (process.env.NODE_ENV !== 'production') {
+  require('./lib/secrets');
+}
+
+//requires the database
 require('./lib/mongodb');
 
 //sets express
@@ -40,13 +46,13 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Sorry folks!');
 });
 
-
+//establishes the node server connection
 var port = process.env.PORT || 3000;
 
 var server = app.listen(port, function () {
   var port = server.address().port;
-  //console.log(process.env);
-  //console.log('Example app listening at http://%s:%d', host, port);
+  console.log(process.env);
+  console.log('Example app listening at http://%s:%d', host, port);
 });
 
 

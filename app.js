@@ -1,28 +1,52 @@
 var fs = require('fs');
 
 //npm dependencies
+var bodyParser = require('body-parser');
 var express = require('express');
 var lessCSS = require('less-middleware');
 var morgan = require('morgan');
-var bodyParser = require('body-parser');
 
 //routes required
-var routes = require('./routes/index');
-var artists = require('./routes/artists');
+var index = require('./routes/index');
 var albums = require('./routes/albums');
+var artists = require('./routes/artists');
 
 
-//A
-if (process.env.NODE_ENV !== 'production') {
-  require('./lib/secrets');
-}
-
+var app = express();
 
 require('./lib/mongodb');
 
-//settings to express
+//sets express
 app.set('view engine', 'ejs');
-app.set('case sensitive routing', true); //just what it says
-//global variable; all of the templates have access to it
-app.locals.title = 'aweso.me';
-app.use(lessCSS('public'));
+
+//Once set, the value of app.locals properties persist throughout the life of the app
+app.locals.title = 'Node-Tunes';
+app.use(bodyParser.urlencoded({extended: true}));
+
+//handle any request that ends in /routeName
+app.use('/', index);
+app.use('/albums', albums)
+app.use('artists', artists)
+
+//put error handling at the end
+app.use(function (req, res) {
+  res.status(403);
+  res.send('You are unauthorized!');
+});
+//order is important, 400s before the 500s
+app.use(function (err, req, res, next) {
+  //pass 4 args to create error handling middleware
+  console.log('OH MY! THERE WAS AN ERROR', err.stack);
+  res.status(500).send('Sorry folks!');
+});
+
+
+var port = process.env.PORT || 3000;
+
+var server = app.listen(port, function () {
+  var port = server.address().port;
+  //console.log(process.env);
+  //console.log('Example app listening at http://%s:%d', host, port);
+});
+
+
